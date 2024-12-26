@@ -1,8 +1,10 @@
 package br.com.sancho.rest_api_spring_boot.services;
 
 import br.com.sancho.rest_api_spring_boot.data.vo.v1.PersonVO;
+import br.com.sancho.rest_api_spring_boot.data.vo.v2.PersonVOV2;
 import br.com.sancho.rest_api_spring_boot.exceptions.ResourceNotFoundException;
 import br.com.sancho.rest_api_spring_boot.mapper.DozerMapper;
+import br.com.sancho.rest_api_spring_boot.mapper.custom.PersonMapper;
 import br.com.sancho.rest_api_spring_boot.model.Person;
 import br.com.sancho.rest_api_spring_boot.repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ public class PersonServices {
 
     @Autowired
     PersonRepository repository;
+
+    @Autowired
+    PersonMapper mapper;
 
     public PersonVO findById(Long id) {
 
@@ -42,6 +47,17 @@ public class PersonServices {
         var entity = DozerMapper.parseObject(person, Person.class);
 
         var vo = DozerMapper.parseObject(repository.save(entity), PersonVO.class);
+
+        return vo;
+    }
+
+    public PersonVOV2 createV2(PersonVOV2 person) {
+
+        logger.info("Creating person with V2!");
+
+        var entity = mapper.convertVoToEntity(person);
+
+        var vo = mapper.convertEntityToVo(repository.save(entity));
 
         return vo;
     }
