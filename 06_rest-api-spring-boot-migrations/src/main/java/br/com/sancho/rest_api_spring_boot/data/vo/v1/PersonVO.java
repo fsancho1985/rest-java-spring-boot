@@ -1,21 +1,24 @@
 package br.com.sancho.rest_api_spring_boot.data.vo.v1;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import java.io.Serializable;
 import java.util.Objects;
 
-
+@JsonPropertyOrder({"id", "firstName", "lastName", "address", "gender"})
 public class PersonVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @JsonIgnore
     private Long id;
     private String firstName;
     private String lastName;
     private String address;
     private String gender;
 
-    public PersonVO() {
-    }
+    public PersonVO() {}
 
     public Long getId() {
         return id;
